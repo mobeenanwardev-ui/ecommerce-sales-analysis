@@ -1,125 +1,67 @@
 # E-Commerce Sales Analysis
 
-A reproducible end-to-end data analytics project using the **UCI Online Retail** transaction dataset. The project demonstrates data extraction, data quality assessment, cleaning, ETL, SQL loading, exploratory analysis, business KPI calculation, and visualisation.
+A beginner-friendly data analytics project built in **one Jupyter Notebook** using Python and the UCI Online Retail dataset.
 
-## Business context
+## Project goal
 
-The dataset contains transactions from a UK-based online retailer selling giftware. The records cover **1 December 2010 to 9 December 2011** and include invoice, product, quantity, price, customer, timestamp, and country information.
+Analyse historical online retail transactions to understand sales performance and answer practical business questions:
 
-**Business question:** What can transaction history tell us about revenue patterns, products, customers, and geographic performance?
+- How does revenue change month by month?
+- Which products generate the most revenue?
+- Which countries contribute the most revenue?
+- Which customers have the highest recorded spend?
+- What is the average order value?
 
-## Questions explored
+## Tools used
 
-1. How does revenue change over time?
-2. Which products generate the most revenue?
-3. Which countries contribute the most revenue?
-4. Which customers have the highest recorded spend?
-5. How do order volume and average order value change?
-6. What data-quality issues must be handled before drawing conclusions?
+- Python
+- Jupyter Notebook
+- pandas and NumPy
+- Matplotlib and Seaborn
 
-## Technology
+## Notebook
 
-- Python 3.10+
-- pandas and NumPy for data preparation
-- SQLite for the load/warehouse step and SQL analysis
-- Matplotlib and Seaborn for charts
-- UCI Machine Learning Repository via `ucimlrepo`
+Open **[`notebooks/ECommerce_Sales_Analysis.ipynb`](notebooks/ECommerce_Sales_Analysis.ipynb)** to follow the complete analysis from beginning to end. It is intentionally kept in one notebook with simple, sequential steps and explanations.
 
-## ETL architecture
+## How to run
 
-```text
-UCI Online Retail dataset
-        |
-        v
-Extract (src/extract.py)
-        |
-        v
-Raw data snapshot (data/raw/)
-        |
-        v
-Transform + quality checks (src/transform.py)
-        |
-        +----> Cleaned CSV (data/processed/)
-        |
-        v
-Load to SQLite (src/load.py)
-        |
-        v
-Analysis + charts (src/analyze.py)
-        |
-        +----> outputs/figures/
-        +----> outputs/reports/
-```
-
-## Data handling decisions
-
-- Preserve the original source file in `data/raw/`; do not edit it manually.
-- Parse invoice timestamps into a real datetime type.
-- Treat invoice numbers beginning with `C` as cancellation/return records and keep them out of completed-sales KPIs.
-- Exclude non-positive quantities and non-positive unit prices from the completed-sales fact table; report how many rows are excluded.
-- Do not discard transactions with an unknown CustomerID from overall sales analysis. Exclude them only from customer-level analysis, where a customer identifier is essential.
-- Remove exact duplicate transaction lines.
-- Calculate line revenue as `Quantity × UnitPrice`.
-- Keep currency in the source unit, GBP (£); this dataset does not provide an exchange-rate table.
-
-These are analytical rules, not claims about the retailer's accounting system. The project reports the rules transparently so results can be interpreted correctly.
-
-## Run locally
-
-1. Create and activate a virtual environment.
-2. Install dependencies:
+1. Download or clone this repository.
+2. Install the packages:
 
    ```bash
-   pip install -r requirements.txt
+   pip install pandas numpy matplotlib seaborn ucimlrepo openpyxl jupyter
    ```
 
-3. Run the full pipeline:
+3. Start Jupyter Notebook:
 
    ```bash
-   python -m src.run_pipeline
+   jupyter notebook
    ```
 
-The first run downloads the dataset through the UCI repository package. Generated raw and processed data, SQLite database, reports, and charts are written to folders excluded from Git where appropriate.
+4. Open `notebooks/ECommerce_Sales_Analysis.ipynb` and run the cells from top to bottom.
 
-## Repository structure
+The notebook downloads dataset 352 from UCI when the data-loading cell runs. Internet access is needed for the first download.
 
-```text
-.
-├── data/
-│   ├── raw/                 # downloaded source file (not committed)
-│   └── processed/           # cleaned data (not committed)
-├── docs/
-│   └── project_methodology.md
-├── outputs/
-│   ├── figures/             # generated charts
-│   └── reports/             # generated KPI and quality reports
-├── src/
-│   ├── extract.py
-│   ├── transform.py
-│   ├── load.py
-│   ├── analyze.py
-│   └── run_pipeline.py
-├── .gitignore
-├── requirements.txt
-└── README.md
-```
-
-## Dataset attribution
+## Data source
 
 Chen, D. (2015). *Online Retail* [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5BW33
 
 Dataset page: https://archive.ics.uci.edu/dataset/352/online+retail  
-License: **CC BY 4.0**. Attribution is provided here; consult the source page for the complete license terms.
+License: CC BY 4.0. The original dataset is attributed to UCI.
 
-## Important limitations
+## Important analytical decisions
 
-- The data covers approximately one year, so it is not sufficient to establish long-term trends or seasonality over multiple years.
-- The dataset represents one retailer and should not be generalized to all e-commerce businesses.
-- Missing customer identifiers limit customer-level analysis.
-- Revenue is calculated from recorded quantities and unit prices; it is not necessarily equal to recognized accounting revenue or profit. No cost-of-goods data is supplied, so profit is not calculated.
+- Exact duplicate rows are removed.
+- Cancellation invoices (invoice numbers beginning with `C`) are excluded from completed-sales analysis.
+- Rows with non-positive quantity or unit price are excluded from completed-sales analysis.
+- Transactions with missing CustomerID remain in overall sales totals; they are excluded only from customer-level analysis.
+- Revenue is calculated as `Quantity × UnitPrice`.
+- Revenue is not profit. The dataset does not provide product costs.
+
+## Project limitations
+
+The data represents one retailer and approximately one year of activity. It should not be treated as a complete accounting dataset or as evidence about every e-commerce business.
 
 ## Author
 
 Mobeen Anwar — M.Sc. High Integrity Systems, Frankfurt University of Applied Sciences.
-
-This repository is a portfolio project. All findings will be generated from the published data-processing rules and scripts; see the reports and figures after running the pipeline.
