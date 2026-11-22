@@ -65,3 +65,16 @@ The data represents one retailer and approximately one year of activity. It shou
 ## Author
 
 Mobeen Anwar — M.Sc. High Integrity Systems, Frankfurt University of Applied Sciences.
+
+
+## Power BI project
+
+The repository also includes a beginner-friendly **Power BI Sales & Business Performance** project using the same UCI Online Retail dataset.
+
+- [Power BI project overview](power-bi/README.md)
+- [Dashboard build guide and interview preparation](power-bi/PROJECT_GUIDE.md)
+- [Power Query cleaning steps](power-bi/POWER_QUERY.md)
+- [DAX measures](power-bi/DAX_MEASURES.dax)
+- [Data dictionary and analytical decisions](power-bi/DATA_DICTIONARY.md)
+
+The Power BI folder contains the source assets and instructions. The actual PBIX report must be created and validated in Power BI Desktop on Windows; it has not yet been generated.
