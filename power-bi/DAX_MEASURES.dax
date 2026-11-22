@@ -31,13 +31,15 @@ CALENDAR (
     MAX ( OnlineRetail[InvoiceDate_Date] )
 )
 
--- Add these calculated columns to DateTable.
+-- Create these calculated columns in DateTable, one at a time.
 Year = YEAR ( DateTable[Date] )
 Month Number = MONTH ( DateTable[Date] )
 Month = FORMAT ( DateTable[Date], "MMM" )
 Year-Month = FORMAT ( DateTable[Date], "YYYY-MM" )
+YearMonthKey = YEAR ( DateTable[Date] ) * 100 + MONTH ( DateTable[Date] )
 
 -- Sort DateTable[Month] by DateTable[Month Number].
+-- Sort DateTable[Year-Month] by DateTable[YearMonthKey].
 -- Relationship: DateTable[Date] (one) -> OnlineRetail[InvoiceDate_Date] (many).
 -- Mark DateTable as the model's date table.
 
