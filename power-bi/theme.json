@@ -1,0 +1,7 @@
+{
+  "name": "Clean Retail Analytics",
+  "dataColors": ["#2563EB", "#0F766E", "#F59E0B", "#7C3AED", "#DC2626", "#0891B2", "#65A30D", "#DB2777"],
+  "background": "#FFFFFF",
+  "foreground": "#1F2937",
+  "tableAccent": "#2563EB"
+}
