@@ -1,0 +1,48 @@
+-- Create these measures in the OnlineRetail table (or a dedicated Measures table).
+
+Total Revenue =
+SUM ( OnlineRetail[Revenue] )
+
+Total Orders =
+DISTINCTCOUNT ( OnlineRetail[InvoiceNo] )
+
+Total Units Sold =
+SUM ( OnlineRetail[Quantity] )
+
+Unique Customers =
+CALCULATE (
+    DISTINCTCOUNT ( OnlineRetail[CustomerID] ),
+    OnlineRetail[CustomerID] <> BLANK()
+)
+
+Average Order Value =
+DIVIDE ( [Total Revenue], [Total Orders] )
+
+Revenue per Customer =
+DIVIDE ( [Total Revenue], [Unique Customers] )
+
+Average Selling Price =
+DIVIDE ( [Total Revenue], [Total Units Sold] )
+
+-- Create this calculated table after loading OnlineRetail.
+DateTable =
+CALENDAR (
+    MIN ( OnlineRetail[InvoiceDate_Date] ),
+    MAX ( OnlineRetail[InvoiceDate_Date] )
+)
+
+-- Add these calculated columns to DateTable.
+Year = YEAR ( DateTable[Date] )
+Month Number = MONTH ( DateTable[Date] )
+Month = FORMAT ( DateTable[Date], "MMM" )
+Year-Month = FORMAT ( DateTable[Date], "YYYY-MM" )
+
+-- Sort DateTable[Month] by DateTable[Month Number].
+-- Relationship: DateTable[Date] (one) -> OnlineRetail[InvoiceDate_Date] (many).
+-- Mark DateTable as the model's date table.
+
+Revenue YTD =
+TOTALYTD ( [Total Revenue], DateTable[Date] )
+
+Orders YTD =
+TOTALYTD ( [Total Orders], DateTable[Date] )
